@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap"
 import{ FaHeart, FaRegHeart } from "react-icons/fa"
-const SongList = ({getSongsToDisplay, currentSong, favorites}) => {
+const SongList = ({getSongsToDisplay, currentSong, favorites, toggleFavorite, playSong, songs}) => {
     return (
 <div className="song-list">
               {getSongsToDisplay().map((song, index) => (

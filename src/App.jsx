@@ -6,6 +6,7 @@ import songData from "./data/songs"
 import Sidebar from "./sidebar/Sidebar"
 import SearchBar from "./searchbar/Searchbar"
 import SongList from "./SongList/SongList"
+import MusicPlayer from "./MusicPlayer/MusicPlayer"
 
 
 function App() {
@@ -71,7 +72,6 @@ function App() {
     // Update background color based on current song
     const currentSong = songs[currentSongIndex]
     if (currentSong) {
-      // This is a simplified version - in a real app, you'd extract colors from the image
       if (currentSong.title === "Ghost Stories") {
         setBgColor("rgb(25, 50, 80)")
       } else if (currentSong.title === "Starboy") {
@@ -82,7 +82,6 @@ function App() {
         setBgColor("rgb(25, 20, 20)")
       }
     }
-
     return () => cancelAnimationFrame(animationRef.current)
   }, [isPlaying, currentSongIndex, songs])
 
@@ -213,50 +212,11 @@ function App() {
             <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
 
             {/* Song list */}
-            <SongList getSongsToDisplay={getSongsToDisplay} currentSong={currentSong} favorites={favorites}/>
+            <SongList getSongsToDisplay={getSongsToDisplay} currentSong={currentSong} favorites={favorites} toggleFavorite={toggleFavorite} playSong={playSong} songs={songs}/>
           </Col>
 
           {/* Player */}
-          {/* <Col md={4} lg={4} className="player-container">
-            <div className="now-playing">
-              <h2>{currentSong?.title}</h2>
-              <p>{currentSong?.artistName}</p>
-            </div>
-
-            <div className="album-cover">
-              <img src={currentSong?.thumbnail || "/placeholder.svg"} alt={currentSong?.title} />
-            </div>
-
-            <div className="progress-container">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-              </div>
-            </div>
-
-            <div className="player-controls">
-              <Button variant="transparent" className="more-options">
-                <FaEllipsisH />
-              </Button>
-
-              <div className="main-controls">
-                <Button variant="transparent" onClick={prevSong}>
-                  <FaStepBackward />
-                </Button>
-                <Button variant="light" className="play-pause-btn" onClick={togglePlay}>
-                  {isPlaying ? <FaPause /> : <FaPlay />}
-                </Button>
-                <Button variant="transparent" onClick={nextSong}>
-                  <FaStepForward />
-                </Button>
-              </div>
-
-              <div className="volume-control">
-                <Button variant="transparent" onClick={() => setVolume(volume > 0 ? 0 : 0.7)}>
-                  {volume > 0 ? <FaVolumeUp /> : <FaVolumeMute />}
-                </Button>
-              </div>
-            </div>
-          </Col> */}
+          <MusicPlayer currentSong={currentSong} progress={progress} prevSong={prevSong} togglePlay={togglePlay} isPlaying={isPlaying} nextSong={nextSong} volume={volume} setVolume={setVolume}/>
         </Row>
       </Container>
     </div>
