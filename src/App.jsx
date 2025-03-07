@@ -1,26 +1,16 @@
 import { useState, useEffect, useRef } from "react"
-import { Container, Row, Col, Form, Button, Navbar } from "react-bootstrap"
-import {
-  FaSearch,
-  FaEllipsisH,
-  FaStepBackward,
-  FaStepForward,
-  FaPause,
-  FaPlay,
-  FaVolumeMute,
-  FaVolumeUp,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa"
+import { Container, Row, Col, Button, Navbar } from "react-bootstrap"
 import { GiHamburgerMenu } from "react-icons/gi"
 import "./App.scss"
 import songData from "./data/songs"
-import logo from "./assets/Logo.png"
+import Sidebar from "./sidebar/Sidebar"
+import SearchBar from "./searchbar/Searchbar"
+import SongList from "./SongList/SongList"
 
 
 function App() {
   const [songs, setSongs] = useState(songData)
-  const [currentSongIndex, setCurrentSongIndex] = useState(3) // Ghost Stories is selected by default
+  const [currentSongIndex, setCurrentSongIndex] = useState(3) 
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [volume, setVolume] = useState(0.7)
@@ -203,40 +193,7 @@ function App() {
 
           {/* Sidebar */}
           {showSidebar && (
-            <Col md={3} lg={2} className="sidebar">
-              <div className="spotify-logo d-none d-md-flex">
-                {/* <div className="spotify-circle">
-                  <div className="spotify-inner-circle"></div>
-                </div>
-                <span>Spotify</span> */}
-                <img src={logo} alt="Spotify" />
-
-              </div>
-
-              <nav className="sidebar-nav">
-                <ul>
-                  <li className={activeTab === "forYou" ? "active" : ""} onClick={() => setActiveTab("forYou")}>
-                    For You
-                  </li>
-                  <li className={activeTab === "topTracks" ? "active" : ""} onClick={() => setActiveTab("topTracks")}>
-                    Top Tracks
-                  </li>
-                  <li className={activeTab === "favorites" ? "active" : ""} onClick={() => setActiveTab("favorites")}>
-                    Favourites
-                  </li>
-                  <li
-                    className={activeTab === "recentlyPlayed" ? "active" : ""}
-                    onClick={() => setActiveTab("recentlyPlayed")}
-                  >
-                    Recently Played
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="user-profile">
-                <div className="user-avatar"></div>
-              </div>
-            </Col>
+            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab}/>
           )}
 
           {/* Main content */}
@@ -252,56 +209,15 @@ function App() {
             </h1>
 
             {/* Search bar */}
-            <div className="search-container">
-              <Form.Control
-                type="text"
-                placeholder="Search Song, Artist"
-                value={searchQuery}
-                onChange={handleSearch}
-                className="search-input"
-              />
-              <FaSearch className="search-icon" />
-            </div>
+            
+            <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
 
             {/* Song list */}
-            <div className="song-list">
-              {getSongsToDisplay().map((song, index) => (
-                <div
-                  key={index}
-                  className={`song-item ${currentSong?.title === song.title ? "active" : ""}`}
-                  onClick={() => playSong(songs.findIndex((s) => s.title === song.title))}
-                >
-                  <div className="song-thumbnail">
-                    <img src={song.thumbnail || "/placeholder.svg"} alt={song.title} />
-                  </div>
-                  <div className="song-info">
-                    <h3>{song.title}</h3>
-                    <p>{song.artistName}</p>
-                  </div>
-                  <div className="song-actions">
-                    <span className="song-duration">{song.duration}</span>
-                    <Button
-                      variant="transparent"
-                      className="more-options"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        toggleFavorite(song)
-                      }}
-                    >
-                      {favorites.some((fav) => fav.title === song.title) ? (
-                        <FaHeart className="favorite-icon active" />
-                      ) : (
-                        <FaRegHeart className="favorite-icon" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SongList getSongsToDisplay={getSongsToDisplay} currentSong={currentSong} favorites={favorites}/>
           </Col>
 
           {/* Player */}
-          <Col md={4} lg={4} className="player-container">
+          {/* <Col md={4} lg={4} className="player-container">
             <div className="now-playing">
               <h2>{currentSong?.title}</h2>
               <p>{currentSong?.artistName}</p>
@@ -338,18 +254,9 @@ function App() {
                 <Button variant="transparent" onClick={() => setVolume(volume > 0 ? 0 : 0.7)}>
                   {volume > 0 ? <FaVolumeUp /> : <FaVolumeMute />}
                 </Button>
-                {/* <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="volume-slider d-none d-md-block"
-                /> */}
               </div>
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </div>
