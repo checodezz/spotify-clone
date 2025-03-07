@@ -1,0 +1,418 @@
+@use 'bootstrap/scss/bootstrap' as *;
+
+// Variables
+$primary-color: #ffffff;
+$secondary-color: rgba(255, 255, 255, 0.7);
+$background-color: #000000;
+$highlight-color: #151515;
+$spotify-green: #1DB954;
+$transition-time: 0.3s;
+
+// Global styles
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Circular Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: $primary-color;
+  background-color: $background-color;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
+.app-container {
+  height: 100vh;
+  transition: background $transition-time ease-in-out;
+}
+
+// Spotify logo
+.spotify-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  .spotify-circle {
+    width: 40px;
+    height: 40px;
+    background-color: $primary-color;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+    
+    .spotify-inner-circle {
+      width: 32px;
+      height: 32px;
+      background-color: $background-color;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &::after {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background-color: $primary-color;
+        border-radius: 50%;
+      }
+    }
+  }
+  
+  span {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}
+
+// Sidebar
+.sidebar {
+  padding: 2rem 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .sidebar-nav {
+    flex: 1;
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      
+      li {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+        transition: color $transition-time ease;
+        
+        &:not(.active) {
+          color: $secondary-color;
+        }
+        
+        &.active {
+          color: $primary-color;
+          font-weight: 500;
+        }
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  .user-profile {
+    margin-top: auto;
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background-color: #555;
+      border-radius: 50%;
+    }
+  }
+}
+
+// Main content
+.main-content {
+  padding: 2rem;
+  height: 100%;
+  overflow-y: auto;
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-container {
+    position: relative;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    
+    .search-input {
+      background-color: rgba(21, 21, 21, 0.6);
+      border: none;
+      border-radius: 30px;
+      padding: 0.75rem 1rem 0.75rem 1rem;
+      color: $primary-color;
+      
+      &::placeholder {
+        color: $secondary-color;
+      }
+      
+      &:focus {
+        box-shadow: none;
+        background-color: rgba(30, 30, 30, 0.8);
+      }
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $secondary-color;
+    }
+  }
+  
+  .song-list {
+    .song-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color $transition-time ease;
+      animation: fadeIn 0.5s ease-in-out;
+      
+      &:hover {
+        background-color: rgba(30, 30, 30, 0.8);
+      }
+      
+      &.active {
+        background-color: $highlight-color;
+      }
+      
+      .song-thumbnail {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-right: 1rem;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      
+      .song-info {
+        flex: 1;
+        
+        h3 {
+          font-size: 1rem;
+          margin: 0;
+        }
+        
+        p {
+          font-size: 0.85rem;
+          color: $secondary-color;
+          margin: 0;
+        }
+      }
+      
+      .song-actions {
+        display: flex;
+        align-items: center;
+        
+        .song-duration {
+          color: $secondary-color;
+          margin-right: 1rem;
+        }
+        
+        .more-options {
+          color: $secondary-color;
+          padding: 0.25rem;
+          
+          &:hover {
+            color: $primary-color;
+          }
+          
+          .favorite-icon {
+            &.active {
+              color: $spotify-green;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Player
+.player-container {
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .now-playing {
+    margin-bottom: 1rem;
+    
+    h2 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    p {
+      color: $secondary-color;
+    }
+  }
+  
+  .album-cover {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    
+    img {
+      width: 100%;
+      max-width: 300px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  .progress-container {
+    margin-bottom: 2rem;
+    
+    .progress-bar {
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      
+      .progress-fill {
+        height: 100%;
+        background-color: $primary-color;
+        border-radius: 2px;
+        transition: width 0.1s linear;
+      }
+    }
+  }
+  
+  .player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    .more-options {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(30, 30, 30, 0.8);
+      color: $secondary-color;
+      
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    
+    .main-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      
+      .btn {
+        color: $secondary-color;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+      
+      .play-pause-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        color: $background-color;
+        
+        &:hover {
+          transform: scale(1.05);
+          color: $background-color;
+        }
+      }
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      
+      .btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(30, 30, 30, 0.8);
+        color: $secondary-color;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+      
+      .volume-slider {
+        width: 80px;
+        margin-left: 0.5rem;
+        
+        &::-webkit-slider-thumb {
+          background-color: $primary-color;
+        }
+        
+        &::-webkit-slider-runnable-track {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 250px;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.9);
+    height: calc(100% - 56px);
+    animation: slideIn 0.3s ease-in-out;
+  }
+  
+  .menu-button {
+    font-size: 1.5rem;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
