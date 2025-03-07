@@ -3,8 +3,11 @@ import { Container, Row, Col, Button, Navbar } from "react-bootstrap"
 import { GiHamburgerMenu } from "react-icons/gi"
 import "./App.scss"
 import songData from "./data/songs"
-import Sidebar from "./sidebar/Sidebar"
-import SearchBar from "./searchbar/Searchbar"
+// import Sidebar from "./sidebar/Sidebar"
+// import SearchBar from "./searchbar/Searchbar"
+
+import Sidebar from "./Sidebar/Sidebar"
+import SearchBar from "./Searchbar/Searchbar"
 import SongList from "./SongList/SongList"
 import MusicPlayer from "./MusicPlayer/MusicPlayer"
 
